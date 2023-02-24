@@ -17,7 +17,8 @@
  * @addtogroup CoreAPI
  * @{
  */
-
+#define UART_MAX_RX_TIMEOUT (100)/*Milli seconds*/
+#define UART_MAX_TX_TIMEOUT (100)/*Milli seconds*/
 /**
  * Init Nextion.
  *
@@ -42,9 +43,9 @@ void nexLoop(NexTouch *nex_listen_list[]);
  * @}
  */
 
-bool recvRetNumber(uint32_t *number, uint32_t timeout = 100);
-uint16_t recvRetString(char *buffer, uint16_t len, uint32_t timeout = 100);
+bool recvRetNumber(uint32_t *number, uint32_t timeout = UART_MAX_RX_TIMEOUT);
+uint16_t recvRetString(char *buffer, uint16_t len, uint32_t timeout = UART_MAX_RX_TIMEOUT);
 void sendCommand(const char* cmd);
-bool recvRetCommandFinished(uint32_t timeout = 100);
+bool recvRetCommandFinished(uint32_t timeout = UART_MAX_RX_TIMEOUT);
 
 #endif /* #ifndef __NEXHARDWARE_H__ */

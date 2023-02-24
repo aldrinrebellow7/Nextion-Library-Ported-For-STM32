@@ -27,6 +27,7 @@
 #define NEX_RET_INVALID_VARIABLE        (0x1A)
 #define NEX_RET_INVALID_OPERATION       (0x1B)
 
+
 UART_HandleTypeDef *huart_disp;
 static uint8_t FF_DATA = 0xFF;
 /*
@@ -165,10 +166,10 @@ void sendCommand(const char* cmd)
 	    (void) tmp;
 	}
 
-	HAL_UART_Transmit(huart_disp, (const uint8_t*)cmd, strlen(cmd), 1000);
-    HAL_UART_Transmit(huart_disp, &FF_DATA, 1, 1000);
-    HAL_UART_Transmit(huart_disp, &FF_DATA, 1, 1000);
-    HAL_UART_Transmit(huart_disp, &FF_DATA, 1, 1000);
+	HAL_UART_Transmit(huart_disp, (const uint8_t*)cmd, strlen(cmd), UART_MAX_TX_TIMEOUT);
+    HAL_UART_Transmit(huart_disp, &FF_DATA, 1, UART_MAX_TX_TIMEOUT);
+    HAL_UART_Transmit(huart_disp, &FF_DATA, 1, UART_MAX_TX_TIMEOUT);
+    HAL_UART_Transmit(huart_disp, &FF_DATA, 1, UART_MAX_TX_TIMEOUT);
 }
 
 
@@ -226,7 +227,6 @@ bool nexInit(UART_HandleTypeDef *huart, uint32_t baudrate)
       Error_Handler();
     }
 
-//    dbSerialBegin(9600);
     sendCommand("");
     sendCommand("bkcmd=1");
     ret1 = recvRetCommandFinished();
@@ -237,33 +237,17 @@ bool nexInit(UART_HandleTypeDef *huart, uint32_t baudrate)
 
 void nexLoop(NexTouch *nex_listen_list[])
 {
-    static uint8_t __buffer[10];
-
-    uint16_t i;
-    uint8_t c;
-
+    volatile uint8_t RxBuffer[10] = {0};
+	#define MAX_TOUCH_RESPONSE_MSG_LENGTH (7)
 	while (__HAL_UART_GET_FLAG(huart_disp, UART_FLAG_RXNE) == SET)
 	{
-        HAL_Delay(10);
-        HAL_UART_Receive(huart_disp, (uint8_t *)&c, sizeof(c), 1000);
-
-        if (NEX_RET_EVENT_TOUCH_HEAD == c)
+        HAL_StatusTypeDef status = HAL_UART_Receive(huart_disp, (uint8_t *)RxBuffer,
+        										MAX_TOUCH_RESPONSE_MSG_LENGTH, UART_MAX_RX_TIMEOUT);
+        if (HAL_OK == status && NEX_RET_EVENT_TOUCH_HEAD == RxBuffer[0])
         {
-        	if (huart_disp->RxXferCount >= 6)
+            if (0xFF == RxBuffer[4] && 0xFF == RxBuffer[5] && 0xFF == RxBuffer[6])
             {
-                __buffer[0] = c;
-                for (i = 1; i < 7; i++)
-                {
-                    HAL_UART_Receive(huart_disp, (uint8_t *)&__buffer[i], sizeof(__buffer[i]), 1000);
-
-                }
-                __buffer[i] = 0x00;
-
-                if (0xFF == __buffer[4] && 0xFF == __buffer[5] && 0xFF == __buffer[6])
-                {
-                    NexTouch::iterate(nex_listen_list, __buffer[1], __buffer[2], (int32_t)__buffer[3]);
-                }
-
+                NexTouch::iterate(nex_listen_list, RxBuffer[1], RxBuffer[2], (int32_t)RxBuffer[3]);
             }
         }
     }

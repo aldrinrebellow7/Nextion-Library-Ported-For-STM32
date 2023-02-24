@@ -15,14 +15,14 @@ NexPage::NexPage(uint8_t pid, uint8_t cid, const char *name)
 
 bool NexPage::show(void)
 {
-    const char *name = getObjName();
-    if (!name)
+	uint8_t Pid = getObjPid();
+    if (0 > Pid)
     {
         return false;
     }
 
     std::string cmd = "page ";
-    cmd += name;
+    cmd += (Pid + '0');
     sendCommand(cmd.c_str());
     return recvRetCommandFinished();
 }
