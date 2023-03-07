@@ -6,8 +6,10 @@
  */
 
 #include "NexObject.h"
-
+#include <string>
 #include "main.h"
+#include "NexTouch.h"
+#include "NexHardware.h"
 
 NexObject::NexObject(uint8_t pid, uint8_t cid, const char *name)
 {
@@ -51,3 +53,22 @@ void NexObject::printObjInfo(void)
     dbSerialPrintln("]");
 }
 
+bool NexObject::setVisible(bool flag)
+{
+    //const char *name = getObjName();
+	uint8_t Cid = getObjCid();
+//    if (!Cid)
+//    {
+//        return false;
+//    }
+    std::string cmd = std::string("vis ");
+    cmd += std::to_string(Cid);
+    cmd += ",";
+    if (flag) {
+        cmd += "1";
+    } else {
+        cmd += "0";
+    }
+    sendCommand(cmd.c_str());
+    return recvRetCommandFinished();
+}

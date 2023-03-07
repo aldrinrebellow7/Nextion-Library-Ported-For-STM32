@@ -22,7 +22,7 @@ bool NexPage::show(void)
     }
 
     std::string cmd = "page ";
-    cmd += (Pid + '0');
+    cmd += std::to_string(Pid);
     sendCommand(cmd.c_str());
     return recvRetCommandFinished();
 }
