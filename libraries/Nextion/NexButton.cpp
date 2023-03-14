@@ -21,7 +21,7 @@
  */
 
 #include "NexButton.h"
-#include <string>
+
 
 NexButton::NexButton(uint8_t pid, uint8_t cid, const char *name)
     :NexTouch(pid, cid, name)
@@ -36,6 +36,15 @@ uint16_t NexButton::getText(char *buffer, uint16_t len)
     cmd += ".txt";
     sendCommand(cmd.c_str());
     return recvRetString(buffer,len);
+}
+
+uint16_t NexButton::getValue(uint32_t *number)
+{
+    std::string cmd = "get ";
+    cmd += getObjName();
+    cmd += ".val";
+    sendCommand(cmd.c_str());
+    return recvRetNumber(number);
 }
 
 bool NexButton::setText(const char *buffer)

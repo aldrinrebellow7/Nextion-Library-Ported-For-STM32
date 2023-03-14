@@ -7,7 +7,7 @@
 
 #ifndef __NEXBUTTON_H__
 #define __NEXBUTTON_H__
-
+#include <string>
 #include "NexTouch.h"
 #include "NexHardware.h"
 /**
@@ -40,6 +40,14 @@ public: /* methods */
      * @return The real length of text returned.
      */
     uint16_t getText(char *buffer, uint16_t len);
+
+    /**
+     * Get text attribute of component.
+     *
+     * @param number - buffer storing text returned.
+     * @return The real length of text returned.
+     */
+    uint16_t getValue(uint32_t *number);
 
     /**
      * Set text attribute of component.
