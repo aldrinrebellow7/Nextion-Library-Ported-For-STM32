@@ -25,12 +25,19 @@ uint16_t NexText::getText(char *buffer, uint16_t len)
 
 bool NexText::setText(const char *buffer)
 {
+#if 0
     std::string cmd;
     cmd += getObjName();
     cmd += ".txt=\"";
-    cmd += buffer;
+    cmd += std::string(buffer);
     cmd += "\"";
     sendCommand(cmd.c_str());
+#else
+    char arr_cTxBuffer[64] = {0};
+    snprintf(arr_cTxBuffer , 64 , "%s.txt=\"%s\"",getObjName(),buffer);
+    sendCommand(arr_cTxBuffer);
+#endif
+
     return recvRetCommandFinished();
 }
 

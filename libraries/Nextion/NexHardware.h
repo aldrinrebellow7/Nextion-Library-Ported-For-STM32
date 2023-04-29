@@ -17,8 +17,8 @@
  * @addtogroup CoreAPI
  * @{
  */
-#define UART_MAX_RX_TIMEOUT (8)/*Milli seconds*/
-#define UART_MAX_TX_TIMEOUT (8)/*Milli seconds*/
+#define UART_MAX_RX_TIMEOUT (5)/*Milli seconds*/
+#define UART_MAX_TX_TIMEOUT (100)/*Milli seconds*/
 /**
  * Init Nextion.
  *

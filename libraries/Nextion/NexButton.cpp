@@ -47,6 +47,20 @@ uint16_t NexButton::getValue(uint32_t *number)
     return recvRetNumber(number);
 }
 
+bool NexButton::setValue(uint32_t number)
+{
+    char buf[10] = {0};
+    std::string cmd;
+
+    utoa(number, buf, 10);
+    cmd += getObjName();
+    cmd += ".val=";
+    cmd += buf;
+
+    sendCommand(cmd.c_str());
+    return recvRetCommandFinished();
+}
+
 bool NexButton::setText(const char *buffer)
 {
     std::string cmd;

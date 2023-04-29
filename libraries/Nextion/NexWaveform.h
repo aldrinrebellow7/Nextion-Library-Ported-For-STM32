@@ -36,7 +36,15 @@ public: /* methods */
      * @retval false - failed.
      */
     bool addValue(uint8_t ch, uint8_t number);
-
+    /**
+     * Add value to show.
+     *
+     * @param ch - channel of waveform(0-3).
+     *
+     * @retval true - success.
+     * @retval false - failed.
+     */
+    bool Clear(uint8_t ch);
     /**
      * Get bco attribute of component
      *

@@ -230,7 +230,7 @@ bool nexInit(UART_HandleTypeDef *huart, uint32_t baudrate)
     sendCommand("");
     sendCommand("bkcmd=1");
     ret1 = recvRetCommandFinished();
-    sendCommand("page 0");
+    sendCommand("page 3");
     ret2 = recvRetCommandFinished();
     return ret1 && ret2;
 }
@@ -239,7 +239,7 @@ void nexLoop(NexTouch *nex_listen_list[])
 {
     volatile uint8_t RxBuffer[10] = {0};
 	#define MAX_TOUCH_RESPONSE_MSG_LENGTH (7)
-	while (__HAL_UART_GET_FLAG(huart_disp, UART_FLAG_RXNE) == SET)
+//	while (__HAL_UART_GET_FLAG(huart_disp, UART_FLAG_RXNE) == SET)
 	{
         HAL_StatusTypeDef status = HAL_UART_Receive(huart_disp, (uint8_t *)RxBuffer,
         										MAX_TOUCH_RESPONSE_MSG_LENGTH, UART_MAX_RX_TIMEOUT);

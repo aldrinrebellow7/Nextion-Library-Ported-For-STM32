@@ -15,7 +15,7 @@ NexWaveform::NexWaveform(uint8_t pid, uint8_t cid, const char *name)
 
 bool NexWaveform::addValue(uint8_t ch, uint8_t number)
 {
-    char buf[15] = {0};
+    char buf[32] = {0};
 
     if (ch > 3)
     {
@@ -23,6 +23,21 @@ bool NexWaveform::addValue(uint8_t ch, uint8_t number)
     }
 
     sprintf(buf, "add %u,%u,%u", getObjCid(), ch, number);
+
+    sendCommand(buf);
+    return true;
+}
+
+bool NexWaveform::Clear(uint8_t ch)
+{
+    char buf[32] = {0};
+
+    if (ch > 3)
+    {
+        return false;
+    }
+
+    sprintf(buf, "cle %u,%u,%u", getObjCid(), ch);
 
     sendCommand(buf);
     return true;

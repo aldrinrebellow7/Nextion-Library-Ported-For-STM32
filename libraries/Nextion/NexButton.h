@@ -57,6 +57,8 @@ public: /* methods */
      */
     bool setText(const char *buffer);
 
+    bool setValue(uint32_t number);
+
     /**
      * Get bco attribute of component
      *

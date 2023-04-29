@@ -27,6 +27,7 @@ class NexObject
 {
 public: /* methods */
 
+	bool setVisible(bool flag);
     /**
      * Constructor.
      *
