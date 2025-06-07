@@ -91,11 +91,11 @@ Contributions are welcome! Please feel free to fork this project, submit pull re
 
 ## 📄 License
 
-This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License**.
 
 ---
 
 ## 👤 Author
 
 Developed by **[Aldrin Rebellow](https://github.com/aldrinrebellow7)**  
-🔗 [LinkedIn](https://www.linkedin.com/in/aldrinrebellow)
+🔗 [LinkedIn](https://www.linkedin.com/in/aldrin-rebellow-25bb1812b/)
