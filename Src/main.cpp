@@ -57,20 +57,22 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-#define ROWS 5
-#define COLS 5
-#define NAME_LENGTH 20
-#define DATE_LENGTH 20
-#define TEMP_LENGTH 100
+#define ROWS (5U)
+#define COLS (5U)
+#define NAME_LENGTH (20U)
+#define DATE_LENGTH (20U)
+#define TEMP_LENGTH (100U)
 
-static int row_table = 0;
+static int row_table = 0U;
 static bool table_first_boot = false;
-struct Data {
+struct Data 
+{
   int serialNumber;
   char date[DATE_LENGTH];
   char name[NAME_LENGTH];
   int value;
-} data[ROWS][COLS] = {
+}data[ROWS][COLS] = 
+{
   {{1, "01/01/2021", "John Smith", 100}, {2, "01/02/2021", "Jane Doe", 200}, {3, "01/03/2021", "Bob Johnson", 300}, {4, "01/04/2021", "Emily Davis", 400}, {5, "01/05/2021", "Michael Brown", 500}},
   {{6, "02/01/2021", "Emily Wilson", 600}, {7, "02/02/2021", "Joshua Moore", 700}, {8, "02/03/2021", "Daniel Thompson", 800}, {9, "02/04/2021", "Matthew White", 900}, {10, "02/05/2021", "Jacob Harris", 1000}},
   {{11, "03/01/2021", "Nicholas Martin", 1100}, {12, "03/02/2021", "William Thompson", 1200}, {13, "03/03/2021", "Amanda Gomez", 1300}, {14, "03/04/2021", "Ashley Martin", 1400}, {15, "03/05/2021", "Brian Anderson", 1500}},
@@ -80,7 +82,6 @@ struct Data {
 
 void sendNextDataToTable(void) 
 {
-
 	if(true == table_first_boot)
 	{
 	    ++row_table;
@@ -93,7 +94,7 @@ void sendNextDataToTable(void)
 	{
 		table_first_boot = true;
 	}
-	sendCommand("data0.clear()");
+	  sendCommand("data0.clear()");
     for (int col = COLS-1; col >= 0; col--)
     {
     	char temp[TEMP_LENGTH] = {0};
