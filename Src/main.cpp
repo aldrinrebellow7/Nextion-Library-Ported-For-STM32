@@ -78,7 +78,8 @@ struct Data {
   {{21, "05/01/2021", "Jacob Scott", 2100}, {22, "05/02/2021", "Ryan Green", 2200}, {23, "05/03/2021", "Jacob Martinez", 2300}, {24, "05/04/2021", "Michael Perez", 2400}, {25, "05/05/2021", "David Thompson", 2500}}
 };
 
-void sendNextDataToTable() {
+void sendNextDataToTable(void) 
+{
 
 	if(true == table_first_boot)
 	{
@@ -103,7 +104,8 @@ void sendNextDataToTable() {
     }
 }
 
-void sendBackDataToTable() {
+void sendBackDataToTable(void) 
+{
 
 	if(true == table_first_boot)
 	{
@@ -163,7 +165,8 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  nexInit(&huart1, 9600);
+
+  nexInit(&huart1, 9600/*Baudrate*/);/*Initilize Nex library with huart1 as UART interface*/
 
   NexCrop q0 = NexCrop(0, 1, "q0");
   (void)q0;
@@ -192,42 +195,29 @@ int main(void)
   NexRtc  rtc;
   (void)rtc;
   sendNextDataToTable();
-#if 0
-  HAL_Delay(2000);
-  sendNextDataToTable();
-  HAL_Delay(2000);
-  sendNextDataToTable();
-  HAL_Delay(2000);
-  sendNextDataToTable();
-  HAL_Delay(2000);
-  sendNextDataToTable();
-  HAL_Delay(2000);
-#endif
-
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	uint32_t dual_state = 0;
-	bt1.getValue(&dual_state);
-	if(dual_state)
-	{
-		sendNextDataToTable();
-		sendCommand("bt1.val=0");
-		sendCommand("bt0.val=0");
-	}
-	dual_state = 0;
-	bt0.getValue(&dual_state);
-	if(dual_state)
-	{
-		sendBackDataToTable();
-		sendCommand("bt0.val=0");
-		sendCommand("bt1.val=0");
-	}
-	HAL_Delay(500);
+    uint32_t dual_state = 0;
+    bt1.getValue(&dual_state);
+    if(dual_state)
+    {
+      sendNextDataToTable();
+      sendCommand("bt1.val=0");
+      sendCommand("bt0.val=0");
+    }
+    dual_state = 0;
+    bt0.getValue(&dual_state);
+    if(dual_state)
+    {
+      sendBackDataToTable();
+      sendCommand("bt0.val=0");
+      sendCommand("bt1.val=0");
+    }
+    HAL_Delay(500);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
