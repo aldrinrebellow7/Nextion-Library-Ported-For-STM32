@@ -6,9 +6,7 @@
  */
 
 #include "NexHardware.h"
-#include "lcd.h"
 #include <string.h>
-#include "../../Screens/Inc/Screens.h"
 
 #define NEX_RET_CMD_FINISHED            (0x01)
 #define NEX_RET_EVENT_LAUNCHED          (0x88)
@@ -32,10 +30,10 @@
 UART_HandleTypeDef *huart_disp;
 static uint8_t FF_DATA = 0xFF;
 
-#define MAX_TOUCH_RESPONSE_MSG_LENGTH (9)
-#define MAX_TOUCH_RESP_BUFFER_SIZE (32)
-volatile uint8_t g_RxBuffer[MAX_TOUCH_RESP_BUFFER_SIZE] = {0};
-volatile uint8_t g_RespBuffer[MAX_TOUCH_RESP_BUFFER_SIZE] = {0};
+#define MAX_TOUCH_RESPONSE_MSG_LENGTH   (9U)
+#define MAX_TOUCH_RESP_BUFFER_SIZE      (32U)
+volatile uint8_t g_RxBuffer[MAX_TOUCH_RESP_BUFFER_SIZE] = {0x00};
+volatile uint8_t g_RespBuffer[MAX_TOUCH_RESP_BUFFER_SIZE] = {0x00};
 /*
  * Receive uint32_t data.
  *
@@ -148,11 +146,6 @@ uint16_t recvRetString(char *buffer, uint16_t len, uint32_t timeout)
  */
 void sendCommand(const char* cmd)
 {
-//	while (__HAL_UART_GET_FLAG(huart_disp, UART_FLAG_RXNE) == SET)
-//	{
-//	    uint8_t tmp = (uint8_t)(huart_disp->Instance->DR & (uint8_t)0x00FF);
-//	    (void) tmp;
-//	}
 	HAL_UART_Transmit(huart_disp, (const uint8_t*)cmd, strlen(cmd), UART_MAX_TX_TIMEOUT);
     HAL_UART_Transmit(huart_disp, &FF_DATA, 1, UART_MAX_TX_TIMEOUT);
     HAL_UART_Transmit(huart_disp, &FF_DATA, 1, UART_MAX_TX_TIMEOUT);
@@ -207,8 +200,6 @@ bool nexInit(UART_HandleTypeDef *huart, uint32_t baudrate)
     sendCommand("");
     sendCommand("bkcmd=1");
     ret1 = recvRetCommandFinished();
-//    sendCommand("page 64");
-//    ret2 = recvRetCommandFinished();
     return ret1 /*&& ret2*/;
 }
 
@@ -222,16 +213,15 @@ void nexLoop(NexTouch *nex_listen_list[])
         										MAX_TOUCH_RESPONSE_MSG_LENGTH, &RecievedDataLength , UART_MAX_RX_TIMEOUT);
         if (HAL_OK == status || 0 < RecievedDataLength)
         {
-            if (NEX_RET_EVENT_TOUCH_HEAD == g_RxBuffer[0] &&
-            		0xFF == g_RxBuffer[4] && 0xFF == g_RxBuffer[5] && 0xFF == g_RxBuffer[6])
+            if (NEX_RET_EVENT_TOUCH_HEAD == g_RxBuffer[0U] &&
+            		0xFF == g_RxBuffer[4U] && 0xFF == g_RxBuffer[5U] && 0xFF == g_RxBuffer[6U])
             {
-                NexTouch::iterate(nex_listen_list, g_RxBuffer[1], g_RxBuffer[2], (int32_t)g_RxBuffer[3]);
+                NexTouch::iterate(nex_listen_list, g_RxBuffer[1U], g_RxBuffer[2U], (int32_t)g_RxBuffer[3U]);
             	Reset_AutoSleepMinsCounterTimer();
             }
             else
             {
-            	g_RxBuffer[0] = 0;
-            	RecievedDataLength = 0;
+            	g_RxBuffer[0U] = RecievedDataLength = 0;
             }
         }
         else
