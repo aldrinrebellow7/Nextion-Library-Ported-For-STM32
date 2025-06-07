@@ -33,8 +33,8 @@ bool NexText::setText(const char *buffer)
     cmd += "\"";
     sendCommand(cmd.c_str());
 #else
-    char arr_cTxBuffer[64] = {0};
-    snprintf(arr_cTxBuffer , 64 , "%s.txt=\"%s\"",getObjName(),buffer);
+    char arr_cTxBuffer[256] = {0};
+    snprintf(arr_cTxBuffer , 255 , "%s.txt=\"%s\"",getObjName(),buffer);
     sendCommand(arr_cTxBuffer);
 #endif
 

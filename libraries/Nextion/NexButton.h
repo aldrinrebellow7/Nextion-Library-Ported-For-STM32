@@ -14,7 +14,8 @@
  * @addtogroup Component
  * @{
  */
-
+#define ALPHA_MEDIUM 	(80)
+#define ALPHA_LOW 		(0)
 /**
  * NexButton component.
  *
@@ -56,9 +57,9 @@ public: /* methods */
      * @return true if success, false for failure.
      */
     bool setText(const char *buffer);
-
+    bool setCbPath(const char *buffer);
     bool setValue(uint32_t number);
-
+    bool setAlpha(uint32_t number);
     /**
      * Get bco attribute of component
      *

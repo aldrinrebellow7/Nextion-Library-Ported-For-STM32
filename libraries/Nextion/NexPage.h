@@ -36,6 +36,7 @@ public: /* methods */
     void DrawLine(uint16_t X1 , uint16_t Y1 , uint16_t X2 , uint16_t Y2 , uint32_t Colour);
     void DrawReactange(uint16_t X1 , uint16_t Y1 , uint16_t X2 , uint16_t Y2 , uint32_t Colour);
     void FillRectangle(uint16_t X1 , uint16_t Y1 , uint16_t X2 , uint16_t Y2 , uint32_t Colour);
+    void FilledCircle(uint16_t X1 , uint16_t Y1 , uint16_t radius, uint32_t Colour);
 };
 /**
  * @}

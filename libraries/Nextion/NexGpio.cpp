@@ -96,3 +96,16 @@ uint32_t NexGpio::get_pwmfreq(uint32_t *number)
     sendCommand(cmd.c_str());
     return recvRetNumber(number);
 }
+bool NexGpio::set_DispBacklight(uint32_t u32Percentval)
+{
+    char buf[10] = {0};
+    std::string cmd;
+
+    utoa(u32Percentval, buf, 10);
+    cmd += "dim";
+    cmd += '=';
+    cmd += buf;
+
+    sendCommand(cmd.c_str());
+    return recvRetCommandFinished();
+}

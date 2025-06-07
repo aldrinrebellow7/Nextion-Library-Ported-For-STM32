@@ -83,6 +83,7 @@ public:
      */
 
     uint32_t get_pwmfreq(uint32_t *number);
+    bool set_DispBacklight(uint32_t u32Percentval);
 
 };
 

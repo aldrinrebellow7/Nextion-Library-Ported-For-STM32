@@ -55,3 +55,13 @@ void NexPage::FillRectangle(uint16_t X1 , uint16_t Y1 , uint16_t X2 , uint16_t Y
 								 + std::to_string(Colour);//"line 20,30,170,200,BLUE"
 	sendCommand(strCmd.c_str());
 }
+
+void NexPage::FilledCircle(uint16_t X1 , uint16_t Y1 , uint16_t radius , uint32_t Colour)
+{
+	std::string strCmd = "cirs " + std::to_string(X1) + ","
+								 + std::to_string(Y1) + ","
+								 + std::to_string(radius) + ","
+								 + std::to_string(Colour);//"line 20,30,170,200,BLUE"
+	sendCommand(strCmd.c_str());
+}
+

@@ -61,6 +61,31 @@ bool NexButton::setValue(uint32_t number)
     return recvRetCommandFinished();
 }
 
+bool NexButton::setAlpha(uint32_t number)
+{
+    char buf[10] = {0};
+    std::string cmd;
+
+    utoa(number, buf, 10);
+    cmd += getObjName();
+    cmd += ".aph=";
+    cmd += buf;
+
+    sendCommand(cmd.c_str());
+    return recvRetCommandFinished();
+}
+
+bool NexButton::setCbPath(const char *buffer)
+{
+    std::string cmd;
+    cmd += getObjName();
+    cmd += ".path=\"";
+    cmd += buffer;
+    cmd += "\"";
+    sendCommand(cmd.c_str());
+    return recvRetCommandFinished();
+}
+
 bool NexButton::setText(const char *buffer)
 {
     std::string cmd;
